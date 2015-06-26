@@ -26,7 +26,13 @@ Flame.LazyListViewStates.MouseIsDown = Flame.State.extend({
         return true;
     },
 
-    mouseUp: function() {
+    contextMenu: function() {
+        console.log("Context menu event detected!!");
+        return true;
+    },
+
+
+    mouseUp: function(evt) {
         var owner = this.get('owner');
         var parentView = owner.get('parentView');
         parentView.selectIndex(owner.get('contentIndex'));
@@ -61,8 +67,13 @@ Flame.LazyListItemView = Flame.ListItemView.extend(Flame.Statechart, {
         return true;
     },
 
+    contextMenu: function(event) {
+        this.invokeStateMethod('contextMenu', event);
+        return true;
+    },
+
     idle: Flame.State.extend({
-        mouseDown: function() {
+        mouseDown: function(e) {
             this.gotoFlameState('mouseIsDown');
         }
     }),

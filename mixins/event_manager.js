@@ -217,6 +217,19 @@ Flame.EventManager = {
             return !this._dispatch('mouseUp', event, view);
         },
 
+        contextMenu: function(event, view) {
+            var mouseResponderView = Flame.get('mouseResponderView');
+            if (mouseResponderView !== undefined) {
+                // Something (e.g. AJAX callback) may remove the responderView from DOM between mouseDown
+                // and mouseUp. In that case return true to ignore the event.
+                if (mouseResponderView.get('_state') !== 'inDOM') return true;
+
+                view = mouseResponderView;
+                Flame.set('mouseResponderView', undefined);
+            }
+            return !this._dispatch('contextMenu', event, view);
+        },
+
         mouseMove: function(event, view) {
             var mouseResponderView = Flame.get('mouseResponderView');
             if (mouseResponderView !== undefined) {
